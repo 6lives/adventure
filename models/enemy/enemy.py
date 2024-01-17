@@ -4,6 +4,7 @@ class Enemy:
     def __init__(self, name: str, hp, strength: int, agility, intelligence, luck, money):
         self.name = name
         self.hp = hp
+        self.max_hp = hp
         self.agility = agility
         self.strength = strength
         self.intelligence = intelligence
@@ -22,7 +23,7 @@ class Enemy:
         return player.hp
 
 
-ENEMIES: [Enemy] = [Enemy('Wolf', 50, 2, 2, 1, 1, 10),
-                    Enemy('Bear', 100, 4, 1, 1, 1, 50),
-                    Enemy('Fox', 30, 1, 4, 2, 2, 15),
-                    Enemy('Squirrel', 9, 1, 6, 1, 1, 5)]
+ENEMIES: [Enemy] = [Enemy('Волк', 50, 2, 2, 1, 1, 10),
+                    Enemy('Медведь', 100, 4, 1, 1, 1, 50),
+                    Enemy('Лиса', 30, 1, 4, 2, 2, 15),
+                    Enemy('Белка', 9, 1, 6, 1, 1, 5)]

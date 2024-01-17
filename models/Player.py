@@ -23,17 +23,18 @@ class Player:
         self.chance_to_dodge: float = (self.agility + self.luck) / 100
 
         self.current_location = Forest
+        self.inAction: bool = False
 
     def print_characteristics(self):
-        return (f"Player info:\n"
-                f"level = {self.level}\n"
-                f"money = {self.money}\n"
-                f"Hp = {self.hp}\n"
-                f"Max hp = {self.max_hp}\n"
-                f"Strength = {self.strength}\n"
-                f"Agility = {self.agility}\n"
-                f"Intelligence = {self.intelligence}\n"
-                f"Luck = {self.luck}\n")
+        return (f"Информация игрока:\n"
+                f"Уровень = {self.level}\n"
+                f"Золото = {self.money}\n"
+                f"Хп = {self.hp}\n"
+                f"Максимальное хп = {self.max_hp}\n"
+                f"Сила = {self.strength}\n"
+                f"Ловкость = {self.agility}\n"
+                f"Интеллект = {self.intelligence}\n"
+                f"Удача = {self.luck}\n")
 
     def hit(self, enemy):
         enemy.hp -= self.melee_attack_damage
