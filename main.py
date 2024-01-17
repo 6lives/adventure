@@ -27,23 +27,10 @@ dp = Dispatcher()
 players: {int: Player} = {}
 
 
-def check_state():
-    def decorator(func):
-        async def wrapper(message: types.Message):
-            player = get_player(message)
-            if player.inAction == True:
-                player.inAction = False
-                await func(message)
-                player.inAction = True
-        return wrapper
-    return decorator
-
-
 def get_player(message: Message) -> Player:
     return players.get(message.from_user.id)
 
 
-@check_state()
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     logging.error(message.from_user.full_name + ' нажал кнопку ')
@@ -79,7 +66,6 @@ async def fight(message: Message):
     player.inAction = False
 
 
-@check_state()
 @dp.message(Command("Возродиться"))
 async def resurrect(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Возродиться')
@@ -96,7 +82,6 @@ async def resurrect(message: Message):
     player.inAction = False
 
 
-@check_state()
 @dp.message(Command("Информация"))
 async def get_info(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Информация')
@@ -109,7 +94,6 @@ async def get_info(message: Message):
     player.inAction = False
 
 
-@check_state()
 @dp.message(Command("Магазин"))
 async def shop(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Магазин')
@@ -123,7 +107,6 @@ async def shop(message: Message):
     player.inAction = False
 
 
-@check_state()
 @dp.message(Command("КупитьЗельеЗдоровья"))
 async def buy_potion(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку КупитьЗельеЗдоровья')
@@ -146,7 +129,6 @@ async def buy_potion(message: Message):
     player.inAction = False
 
 
-@check_state()
 @dp.message(Command("Назад"))
 async def back(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Назад')
