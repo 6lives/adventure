@@ -22,6 +22,7 @@ class Enemy:
         return player.hp
 
 
-ENEMIES: [Enemy] = [Enemy('wolf', 50, 2, 2, 1, 1, 10),
-                    Enemy('bear', 100, 4, 1, 1, 1, 50),
-                    Enemy('fox', 30, 1, 4, 2, 2, 15)]
+ENEMIES: [Enemy] = [Enemy('Wolf', 50, 2, 2, 1, 1, 10),
+                    Enemy('Bear', 100, 4, 1, 1, 1, 50),
+                    Enemy('Fox', 30, 1, 4, 2, 2, 15),
+                    Enemy('Squirrel', 9, 1, 6, 1, 1, 5)]
