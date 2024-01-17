@@ -41,6 +41,7 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.message(Command("hunt"))
 async def fight(message: Message):
+    # TODO: сделать обновление сообщения в котором будет отображаться хп уменьшающееся
     player: Player = get_player(message)
     player.current_location = Forest
     enemy: Enemy = copy.deepcopy(random.choice(ENEMIES))
