@@ -13,7 +13,10 @@ class Player:
         self.agility: int = 1
         self.intelligence: int = 1
         self.luck: int = 1
-        self.exp: float = 0
+
+        self.exp: int = 0
+        self.exp_to_lvl_up: int = 100
+
         self.money = 0
         self.melee_attack_damage: int = self.strength * 2
         self.ranged_attack_damage: int = self.agility * 2
@@ -28,9 +31,9 @@ class Player:
     def print_characteristics(self):
         return (f"Информация игрока:\n"
                 f"Уровень = {self.level}\n"
+                f"Опыт = {self.exp}\n"
                 f"Золото = {self.money}\n"
-                f"Хп = {self.hp}\n"
-                f"Максимальное хп = {self.max_hp}\n"
+                f"Хп = {self.hp}/{self.max_hp}\n"
                 f"Сила = {self.strength}\n"
                 f"Ловкость = {self.agility}\n"
                 f"Интеллект = {self.intelligence}\n"
@@ -40,8 +43,18 @@ class Player:
         enemy.hp -= self.melee_attack_damage
         return enemy.hp
 
-    def level_up(self):
-        self.level += 1
-        self.strength += 1
-        self.agility += 1
-        self.max_hp += 20
+    def check_level_up(self):
+        if self.exp >= self.exp_to_lvl_up:
+            self.level += 1
+            self.strength += 1
+            self.agility += 1
+            self.max_hp += 20
+            self.exp_to_lvl_up += 100 * self.level
+            self.exp = 0
+            return True
+        return False
+
+    def dead(self):
+        self.exp *= 0.8
+
+

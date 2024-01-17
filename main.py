@@ -2,14 +2,14 @@ import asyncio
 import sys
 import random
 import copy
-import time
+from models.game import Game
 
 from dotenv import load_dotenv
 import logging
 from os import getenv
 
 from aiogram.types import Message
-from aiogram import Bot, Dispatcher, Router, types
+from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 
@@ -46,6 +46,7 @@ def get_player(message: Message) -> Player:
 @check_state()
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
+    logging.error(message.from_user.full_name + ' нажал кнопку ')
     players[message.from_user.id] = Player(message)
     player = get_player(message)
     if player.inAction:
@@ -58,10 +59,9 @@ async def command_start_handler(message: Message) -> None:
     player.inAction = False
 
 
-
 @dp.message(Command("Охотиться"))
 async def fight(message: Message):
-    # TODO: сделать обновление сообщения в котором будет отображаться хп уменьшающееся
+    logging.error(message.from_user.full_name + ' нажал кнопку Охотиться')
     player: Player = get_player(message)
     if player.inAction:
         return
@@ -74,38 +74,15 @@ async def fight(message: Message):
     player.current_location = Forest
     enemy: Enemy = copy.deepcopy(random.choice(ENEMIES))
 
-    await message.reply(f'Твой противник: {enemy.name}')
-    fight_message = await message.bot.send_message(message.chat.id, f'Игрок: {player.hp}/{player.max_hp}хп\n'
-                                                    f'{enemy.name}: {enemy.hp}/{enemy.max_hp}хп')
-    while player.hp > 0 or enemy.hp > 0:
-        if player.hp <= 0:
-            await message.reply(f'{enemy.name} победил. Вы умерли')
-            player.inAction = False
-            return
+    await Game.fight(message, player, enemy)
 
-        player.hit(enemy)
-        await message.bot.edit_message_text(f'Игрок: {player.hp}/{player.max_hp}хп\n'
-                                                    f'{enemy.name}: {enemy.hp}/{enemy.max_hp}хп',
-                                            fight_message.chat.id,
-                                            fight_message.message_id)
-        if enemy.hp <= 0:
-            player.level_up()
-            player.money += enemy.money
-            await message.bot.send_message(message.chat.id, 'Игрок победил')
-            player.inAction = False
-            return
-
-        enemy.hit(player)
-        await message.bot.edit_message_text(f'Игрок: {player.hp}/{player.max_hp}хп\n'
-                                            f'{enemy.name}: {enemy.hp}/{enemy.max_hp}хп',
-                                            fight_message.chat.id,
-                                            fight_message.message_id)
-        time.sleep(0.2)
+    player.inAction = False
 
 
 @check_state()
 @dp.message(Command("Возродиться"))
 async def resurrect(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку Возродиться')
     player = get_player(message)
     if player.inAction:
         return
@@ -122,6 +99,7 @@ async def resurrect(message: Message):
 @check_state()
 @dp.message(Command("Информация"))
 async def get_info(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку Информация')
     player = get_player(message)
     if player.inAction:
         return
@@ -134,6 +112,7 @@ async def get_info(message: Message):
 @check_state()
 @dp.message(Command("Магазин"))
 async def shop(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку Магазин')
     player = get_player(message)
     if player.inAction:
         return
@@ -147,6 +126,7 @@ async def shop(message: Message):
 @check_state()
 @dp.message(Command("КупитьЗельеЗдоровья"))
 async def buy_potion(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку КупитьЗельеЗдоровья')
     player = get_player(message)
     if player.inAction:
         return
@@ -169,6 +149,7 @@ async def buy_potion(message: Message):
 @check_state()
 @dp.message(Command("Назад"))
 async def back(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку Назад')
     player = get_player(message)
     if player.inAction:
         return
@@ -189,3 +170,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
 
+# TODO: приделать инвентарь, возможность продать айтемы
