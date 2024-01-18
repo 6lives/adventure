@@ -3,6 +3,7 @@ import sys
 import random
 import copy
 from models.game import Game
+from aiogram import F
 
 from dotenv import load_dotenv
 import logging
@@ -28,7 +29,10 @@ players: {int: Player} = {}
 
 
 def get_player(message: Message) -> Player:
-    return players.get(message.from_user.id)
+    if not players.get(message.from_user.id, None):
+        players[message.from_user.id] = Player(message)
+        message.bot.send_message(message.chat.id, 'Бот был перезапущен, новый игрок создан')
+    return players.get(message.from_user.id, None)
 
 
 @dp.message(CommandStart())
@@ -46,7 +50,7 @@ async def command_start_handler(message: Message) -> None:
     player.inAction = False
 
 
-@dp.message(Command("Охотиться"))
+@dp.message(F.text == "Охотиться")
 async def fight(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Охотиться')
     player: Player = get_player(message)
@@ -66,7 +70,7 @@ async def fight(message: Message):
     player.inAction = False
 
 
-@dp.message(Command("Возродиться"))
+@dp.message(F.text == "Возродиться")
 async def resurrect(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Возродиться')
     player = get_player(message)
@@ -82,7 +86,7 @@ async def resurrect(message: Message):
     player.inAction = False
 
 
-@dp.message(Command("Информация"))
+@dp.message(F.text == "Информация")
 async def get_info(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Информация')
     player = get_player(message)
@@ -94,7 +98,7 @@ async def get_info(message: Message):
     player.inAction = False
 
 
-@dp.message(Command("Магазин"))
+@dp.message(F.text == "Магазин")
 async def shop(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Магазин')
     player = get_player(message)
@@ -107,7 +111,7 @@ async def shop(message: Message):
     player.inAction = False
 
 
-@dp.message(Command("КупитьЗельеЗдоровья"))
+@dp.message(F.text == "Купить зелье здоровья")
 async def buy_potion(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку КупитьЗельеЗдоровья')
     player = get_player(message)
@@ -129,7 +133,7 @@ async def buy_potion(message: Message):
     player.inAction = False
 
 
-@dp.message(Command("Назад"))
+@dp.message(F.text == "Назад")
 async def back(message: Message):
     logging.error(message.from_user.full_name + ' нажал кнопку Назад')
     player = get_player(message)
@@ -138,6 +142,27 @@ async def back(message: Message):
     player.inAction = True
     player.current_location = Forest
     await message.reply('Вы вернулись на поляну', reply_markup=player.current_location.keyboard)
+    player.inAction = False
+
+
+@dp.message(F.text == "Исцелиться")
+async def heal(message: Message):
+    logging.error(message.from_user.full_name + ' нажал кнопку Исцелиться')
+    player = get_player(message)
+    if player.inAction:
+        return
+    player.current_location = Forest
+    await message.reply('Исцеление займет 10 секунд и вылечит 50 хп', reply_markup=player.current_location.keyboard)
+    sleep_string = 'z'
+    sleep_message = await message.bot.send_message(message.chat.id, sleep_string)
+    for i in range(10):
+        if len(sleep_string) >= 4:
+            sleep_string = ''
+        sleep_string += 'z'
+        await message.bot.edit_message_text(sleep_string, sleep_message.chat.id, sleep_message.message_id)
+        await asyncio.sleep(1)
+    player.hp += 50
+    await message.bot.send_message(message.chat.id, 'Игрок исцелен')
     player.inAction = False
 
 

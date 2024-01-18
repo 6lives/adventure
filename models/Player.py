@@ -31,7 +31,7 @@ class Player:
     def print_characteristics(self):
         return (f"Информация игрока:\n"
                 f"Уровень = {self.level}\n"
-                f"Опыт = {self.exp}\n"
+                f"Опыт = {self.exp}/{self.exp_to_lvl_up}\n"
                 f"Золото = {self.money}\n"
                 f"Хп = {self.hp}/{self.max_hp}\n"
                 f"Сила = {self.strength}\n"
