@@ -9,7 +9,7 @@ import logging
 from os import getenv
 
 from aiogram.types import Message
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 
@@ -153,3 +153,5 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 # TODO: приделать инвентарь, возможность продать айтемы
+# TODO: мин макс дамаг врагов/героя
+# TODO: уклонения/блоки/удача в бою
