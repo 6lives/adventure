@@ -123,10 +123,7 @@ async def buy_potion(message: Message):
         await message.reply('У вас недостаточно денег', reply_markup=player.current_location.keyboard)
     elif player.money >= 20 and player.hp != player.max_hp:
         player.money -= 20
-        if player.hp + 50 > player.max_hp:
-            player.hp = player.max_hp
-        else:
-            player.hp += 50
+        player.heal(50)
         await message.reply(f'Очки жизней добавлены: {player.hp}')
     else:
         await message.reply('У вас и так максимальное количество здоровья',  reply_markup=player.current_location.keyboard)
@@ -161,7 +158,7 @@ async def heal(message: Message):
         sleep_string += 'z'
         await message.bot.edit_message_text(sleep_string, sleep_message.chat.id, sleep_message.message_id)
         await asyncio.sleep(1)
-    player.hp += 50
+    player.heal(50)
     await message.bot.send_message(message.chat.id, 'Игрок исцелен')
     player.inAction = False
 
