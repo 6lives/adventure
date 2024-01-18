@@ -56,6 +56,7 @@ class Player:
 
     def dead(self):
         self.exp *= 0.8
+        self.exp = round(self.exp)
 
     def heal(self, amount):
         if self.hp + amount > self.max_hp:

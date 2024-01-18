@@ -7,5 +7,5 @@ class Forest:
     __resurrect = KeyboardButton(text='Возродиться')
     __info = KeyboardButton(text='Информация')
     __heal = KeyboardButton(text='Исцелиться')
-    keyboard = ReplyKeyboardMarkup(keyboard=[[__to_shop, __to_hunt, __resurrect, __info, __heal]], resize_keyboard=True)
+    keyboard = ReplyKeyboardMarkup(keyboard=[[__to_shop, __to_hunt], [ __resurrect, __info, __heal]], resize_keyboard=True, is_persistent=True)
 

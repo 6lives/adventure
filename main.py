@@ -31,7 +31,6 @@ players: {int: Player} = {}
 def get_player(message: Message) -> Player:
     if not players.get(message.from_user.id, None):
         players[message.from_user.id] = Player(message)
-        message.bot.send_message(message.chat.id, 'Бот был перезапущен, новый игрок создан')
     return players.get(message.from_user.id, None)
 
 
