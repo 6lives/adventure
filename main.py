@@ -39,14 +39,10 @@ async def command_start_handler(message: Message) -> None:
     logging.error(message.from_user.full_name + ' нажал кнопку ')
     players[message.from_user.id] = Player(message)
     player = get_player(message)
-    if player.inAction:
-        return
-    player.inAction = True
 
     player.current_location = Forest
     await message.reply(f'Новый игрок создан для {message.from_user.full_name}',
                         reply_markup=player.current_location.keyboard)
-    player.inAction = False
 
 
 @dp.message(F.text == "Охотиться")
@@ -147,6 +143,7 @@ async def heal(message: Message):
     player = get_player(message)
     if player.inAction:
         return
+    player.inAction = True
     player.current_location = Forest
     await message.reply('Исцеление займет 10 секунд и вылечит 50 хп', reply_markup=player.current_location.keyboard)
     sleep_string = 'z'
@@ -176,3 +173,8 @@ if __name__ == "__main__":
 # TODO: приделать инвентарь, возможность продать айтемы
 # TODO: мин макс дамаг врагов/героя
 # TODO: уклонения/блоки/удача в бою
+# магазин переименовать в город
+# магазин сделать через инлайн кнопки для этого нужно добавить стейт персонажа дополнительный
+# в городе появляются кнопки "магазин" задание исцеление
+# задания уровня "убить столько то мобов" сделать после инвентаря
+# писать статистику боя и дать ее посмотреть

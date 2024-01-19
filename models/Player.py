@@ -49,7 +49,7 @@ class Player:
             self.strength += 1
             self.agility += 1
             self.max_hp += 20
-            self.exp_to_lvl_up += 100 * self.level
+            self.exp_to_lvl_up = 100 * self.level
             self.exp = 0
             return True
         return False
