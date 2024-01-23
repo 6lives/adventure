@@ -1,5 +1,5 @@
 from aiogram.types import Message
-from location import Forest
+from location.forest import Forest
 
 
 class Player:
