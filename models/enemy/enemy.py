@@ -20,6 +20,9 @@ class Enemy:
         self.chance_to_dodge: float = (self.agility + self.luck) / 100
 
     def hit(self, player):
+        if player.hp - self.melee_attack_damage < 0:
+            player.hp = 0
+            return player.hp
         player.hp -= self.melee_attack_damage
         return player.hp
 

@@ -5,8 +5,9 @@ from location.forest import Forest
 class Player:
 
     def __init__(self, message: Message):
-        self.id = message.from_user.id
-        self.level = 1
+        self.id: int = message.from_user.id
+        self.fullName: str = message.from_user.full_name
+        self.level: int = 1
         self.hp: int = 100
         self.max_hp = 100
         self.strength: int = 1
@@ -27,6 +28,7 @@ class Player:
 
         self.current_location = Forest
         self.inAction: bool = False
+        self.isDead: bool = False
 
     def print_characteristics(self):
         return (f"Информация игрока:\n"
@@ -40,6 +42,9 @@ class Player:
                 f"Удача = {self.luck}\n")
 
     def hit(self, enemy):
+        if enemy.hp - self.melee_attack_damage < 0:
+            enemy.hp = 0
+            return enemy.hp
         enemy.hp -= self.melee_attack_damage
         return enemy.hp
 
@@ -55,6 +60,7 @@ class Player:
         return False
 
     def dead(self):
+        self.isDead = True
         self.exp *= 0.8
         self.exp = round(self.exp)
 
