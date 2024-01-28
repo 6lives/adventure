@@ -1,5 +1,4 @@
 import copy
-import logging
 import random
 
 from aiogram import F
@@ -38,11 +37,3 @@ async def resurrect(message: Message, players):
     if player.hp <= 0:
         player.hp = player.max_hp
         await message.reply('Очки жизни восстановлены', reply_markup=player.current_location.keyboard)
-
-
-@dp.message(F.text == "Информация")
-async def get_info(message: Message, players):
-    player = Utils.get_player(message, players)
-
-    player.current_location = Forest
-    await message.reply(player.print_characteristics(), reply_markup=player.current_location.keyboard)

@@ -8,6 +8,7 @@ import handlers.shop
 
 from middlewares import register_middleware
 from models.player import Player
+from location.menu_items import menuItems
 
 from dotenv import load_dotenv
 import logging
@@ -21,9 +22,11 @@ from core.loader import dp
 load_dotenv()
 TOKEN = getenv("TELEGRAM_TOKEN")
 
+
 async def main() -> None:
     # Initialize Bot instance with a default parse mode which will be passed to all API calls
     bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    await bot.set_my_commands(menuItems)
     # And the run events dispatching
     players: {int: Player} = {}
     register_middleware(dp, players)

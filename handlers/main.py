@@ -41,3 +41,14 @@ async def announce(message: Message, players: dict):
     players_ids: [] = players.keys()
     for i in players_ids:
         await message.bot.send_message(i, text)
+
+
+@dp.message(F.text == "/info")
+async def get_info(message: Message, players):
+    player = Utils.get_player(message, players)
+    await message.reply(player.print_characteristics())
+
+
+@dp.message(F.text == "/inventory")
+async def get_info(message: Message, players):
+    await message.reply('Инвентарь:')
