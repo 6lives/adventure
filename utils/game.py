@@ -24,7 +24,7 @@ class Game:
                 enemy.reward(player)
                 is_level_up = player.check_level_up()
                 if is_level_up:
-                    await message.bot.send_message(message.chat.id, 'Вы получили новый уровень!')
+                    await message.bot.send_message(message.chat.id, 'Вы получили новый уровень и 1 очко характеристик!')
                 return
 
             enemy.hit(player)

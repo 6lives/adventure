@@ -10,6 +10,7 @@ class Player:
         self.level: int = 1
         self.hp: int = 100
         self.max_hp = 100
+
         self.strength: int = 1
         self.agility: int = 1
         self.intelligence: int = 1
@@ -17,6 +18,7 @@ class Player:
 
         self.exp: int = 0
         self.exp_to_lvl_up: int = 100
+        self.available_attr_pts: int = 0
 
         self.money = 0
         self.melee_attack_damage: int = self.strength * 2
@@ -51,9 +53,10 @@ class Player:
     def check_level_up(self):
         if self.exp >= self.exp_to_lvl_up:
             self.level += 1
-            self.strength += 1
-            self.agility += 1
-            self.max_hp += 20
+            self.available_attr_pts += 1
+            # self.strength += 1
+            # self.agility += 1
+            # self.max_hp += 20
             self.exp_to_lvl_up = 100 * self.level
             self.exp = 0
             return True
