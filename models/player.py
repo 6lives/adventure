@@ -21,7 +21,7 @@ class Player:
         self.available_attr_pts: int = 0
 
         self.money = 0
-        self.melee_attack_damage: int = self.strength * 2
+        self.melee_attack_damage = lambda: self.strength * 2
         self.ranged_attack_damage: int = self.agility * 2
         self.magic_attack_damage: int = self.intelligence * 2
 
@@ -32,7 +32,7 @@ class Player:
         self.inAction: bool = False
         self.isDead: bool = False
 
-    def print_characteristics(self):
+    def print_characteristics(self) -> str:
         return (f"Информация игрока:\n"
                 f"Уровень = {self.level}\n"
                 f"Опыт = {self.exp}/{self.exp_to_lvl_up}\n"
@@ -41,33 +41,31 @@ class Player:
                 f"Сила = {self.strength}\n"
                 f"Ловкость = {self.agility}\n"
                 f"Интеллект = {self.intelligence}\n"
-                f"Удача = {self.luck}\n")
+                f"Удача = {self.luck}\n"
+                f"Доступных очков характеристик = {self.available_attr_pts}")
 
-    def hit(self, enemy):
-        if enemy.hp - self.melee_attack_damage < 0:
+    def hit(self, enemy) -> None:
+        if enemy.hp - self.melee_attack_damage() < 0:
             enemy.hp = 0
-            return enemy.hp
-        enemy.hp -= self.melee_attack_damage
-        return enemy.hp
+            return
+        enemy.hp -= self.melee_attack_damage()
 
-    def check_level_up(self):
+    def check_level_up(self) -> bool:
         if self.exp >= self.exp_to_lvl_up:
+            exceed_exp = self.exp - self.exp_to_lvl_up
             self.level += 1
             self.available_attr_pts += 1
-            # self.strength += 1
-            # self.agility += 1
-            # self.max_hp += 20
             self.exp_to_lvl_up = 100 * self.level
-            self.exp = 0
+            self.exp = exceed_exp
             return True
         return False
 
-    def dead(self):
+    def dead(self) -> None:
         self.isDead = True
         self.exp *= 0.8
         self.exp = round(self.exp)
 
-    def heal(self, amount):
+    def heal(self, amount) -> None:
         if self.hp + amount > self.max_hp:
             self.hp = self.max_hp
         else:

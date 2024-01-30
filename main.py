@@ -6,6 +6,8 @@ import handlers.locations
 import handlers.city
 import handlers.shop
 import callbacks.levelUpHandler
+import handlers.goblinValley
+import handlers.goblinCamp
 
 from middlewares import register_middleware
 from models.player import Player

@@ -51,5 +51,5 @@ async def get_info(message: Message, players):
 
 
 @dp.message(F.text == "/inventory")
-async def get_info(message: Message):
+async def get_inventory(message: Message):
     await message.reply('Инвентарь:')

@@ -5,7 +5,7 @@ import time
 class Game:
     @staticmethod
     async def fight(message, player, enemy):
-        await message.reply(f'Твой противник: {enemy.name}')
+        await message.reply(f'Твой противник: {enemy.name} {enemy.level} уровня')
         fight_message = await message.bot.send_message(message.chat.id, f'Игрок: {player.hp}/{player.max_hp}хп\n'
                                                                         f'{enemy.name}: {enemy.hp}/{enemy.max_hp}хп')
         while player.hp > 0 or enemy.hp > 0:
@@ -20,11 +20,12 @@ class Game:
                                                 fight_message.chat.id,
                                                 fight_message.message_id)
             if enemy.hp <= 0:
-                await message.bot.send_message(message.chat.id, f'Игрок победил и получил:\nОпыт: {enemy.exp}\nЗолото: {enemy.money}')
+                await message.bot.send_message(message.chat.id, f'Игрок победил и получил:\nОпыт: {enemy.exp_reward}\nЗолото: {enemy.money_reward}')
                 enemy.reward(player)
                 is_level_up = player.check_level_up()
                 if is_level_up:
-                    await message.bot.send_message(message.chat.id, 'Вы получили новый уровень и 1 очко характеристик!')
+                    await message.bot.send_message(message.chat.id, 'Вы получили новый уровень и 1 очко характеристик!\n'
+                                                                    'Потратьте их в окне информации об игроке')
                 return
 
             enemy.hit(player)
