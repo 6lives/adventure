@@ -27,4 +27,4 @@ class Enemy:
 
     def reward(self, player):
         player.money += self.money_reward
-        player.exp += self.exp_reward * 5
+        player.exp += self.exp_reward
