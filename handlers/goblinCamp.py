@@ -35,5 +35,5 @@ async def resurrect(message: Message, players):
 
     player.current_location = GoblinCamp
     if player.hp <= 0:
-        player.hp = player.max_hp
+        player.hp = player.max_hp()
         await message.reply('Очки жизни восстановлены', reply_markup=player.current_location.keyboard)

@@ -13,12 +13,12 @@ class GoblinTrapper(Enemy):
 
 class GoblinWarrior(Enemy):
     def __init__(self, level: int):
-        super().__init__('гоблин воин', 20, 2, 2, 1, 1, 20, 40, level)
+        super().__init__('гоблин воин', 30, 3, 2, 1, 1, 20, 50, level)
 
 
 class GoblinShaman(Enemy):
     def __init__(self, level: int):
-        super().__init__('гоблин шаман', 20, 2, 2, 1, 1, 20, 40, level)
+        super().__init__('гоблин шаман', 20, 2, 2, 10, 1, 20, 40, level)
 
 
 class GoblinWarlord(Enemy):

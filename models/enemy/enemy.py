@@ -4,8 +4,8 @@ class Enemy:
     def __init__(self, name: str, hp: int, strength: int, agility: int, intelligence: int, luck: int, money: int, exp: int, level: int):
         self.level = level
         self.name = name
-        self.hp = hp
-        self.max_hp = hp * level
+        self.max_hp = hp + (level * 10)
+        self.hp = self.max_hp
         self.agility = agility
         self.strength = strength
         self.intelligence = intelligence
@@ -27,4 +27,4 @@ class Enemy:
 
     def reward(self, player):
         player.money += self.money_reward
-        player.exp += self.exp_reward
+        player.exp += self.exp_reward * 5

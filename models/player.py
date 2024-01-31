@@ -1,5 +1,6 @@
 from aiogram.types import Message
 from location.forest import Forest
+import random
 
 
 class Player:
@@ -9,7 +10,7 @@ class Player:
         self.fullName: str = message.from_user.full_name
         self.level: int = 1
         self.hp: int = 100
-        self.max_hp = 100
+        self.max_hp = lambda: (self.strength + self.level) * 50
 
         self.strength: int = 1
         self.agility: int = 1
@@ -25,8 +26,7 @@ class Player:
         self.ranged_attack_damage: int = self.agility * 2
         self.magic_attack_damage: int = self.intelligence * 2
 
-        self.chance_to_block: float = (self.strength + (self.agility / 2)) / 100
-        self.chance_to_dodge: float = (self.agility + self.luck) / 100
+        self.chance_to_evade = lambda: ((self.agility * 3) + (self.luck * 2)) / 100
 
         self.current_location = Forest
         self.inAction: bool = False
@@ -37,7 +37,7 @@ class Player:
                 f"Уровень = {self.level}\n"
                 f"Опыт = {self.exp}/{self.exp_to_lvl_up}\n"
                 f"Золото = {self.money}\n"
-                f"Хп = {self.hp}/{self.max_hp}\n"
+                f"Хп = {self.hp}/{self.max_hp()}\n"
                 f"Сила = {self.strength}\n"
                 f"Ловкость = {self.agility}\n"
                 f"Интеллект = {self.intelligence}\n"
@@ -50,13 +50,17 @@ class Player:
             return
         enemy.hp -= self.melee_attack_damage()
 
+    def check_evade(self) -> bool:
+        return 0 < round(random.uniform(0.01, 1), 2) <= self.chance_to_evade()
+
     def check_level_up(self) -> bool:
         if self.exp >= self.exp_to_lvl_up:
-            exceed_exp = self.exp - self.exp_to_lvl_up
-            self.level += 1
-            self.available_attr_pts += 1
-            self.exp_to_lvl_up = 100 * self.level
-            self.exp = exceed_exp
+            while self.exp >= self.exp_to_lvl_up:
+                exceed_exp = self.exp - self.exp_to_lvl_up
+                self.level += 1
+                self.available_attr_pts += 1
+                self.exp_to_lvl_up = 100 * self.level
+                self.exp = exceed_exp
             return True
         return False
 
@@ -66,8 +70,8 @@ class Player:
         self.exp = round(self.exp)
 
     def heal(self, amount) -> None:
-        if self.hp + amount > self.max_hp:
-            self.hp = self.max_hp
+        if self.hp + amount > self.max_hp():
+            self.hp = self.max_hp()
         else:
             self.hp += amount
 
