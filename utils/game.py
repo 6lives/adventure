@@ -43,7 +43,7 @@ class Game:
 
     @staticmethod
     async def heal(message, player):
-        wait = int(10 + player.level)
+        wait = int(5 + player.level/2)
         await message.reply(f'Исцеление займет {wait} секунд и вылечит {player.max_hp()/2} хп', reply_markup=player.current_location.keyboard)
         sleep_string = '🛏️'
         sleep_message = await message.bot.send_message(message.chat.id, sleep_string)
