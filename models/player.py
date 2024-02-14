@@ -10,7 +10,7 @@ class Player:
         self.fullName: str = message.from_user.full_name
         self.level: int = 1
         self.hp: int = 100
-        self.max_hp = lambda: (self.strength + self.level) * 50
+        self.max_hp = lambda: 100 + (self.strength + self.level) * 5
 
         self.strength: int = 1
         self.agility: int = 1
@@ -22,11 +22,11 @@ class Player:
         self.available_attr_pts: int = 0
 
         self.money = 0
-        self.melee_attack_damage = lambda: self.strength * 2
+        self.melee_attack_damage = lambda: (self.strength * 1.5)
         self.ranged_attack_damage: int = self.agility * 2
         self.magic_attack_damage: int = self.intelligence * 2
 
-        self.chance_to_evade = lambda: ((self.agility * 3) + (self.luck * 2)) / 100
+        self.chance_to_evade = lambda: 0.5 if ((self.agility * 1.5) + (self.luck * 0.5)) / 100 > 0.5 else ((self.agility * 1.5) + (self.luck * 0.5)) / 100
 
         self.current_location = Forest
         self.inAction: bool = False

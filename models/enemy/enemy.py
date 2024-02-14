@@ -27,4 +27,7 @@ class Enemy:
 
     def reward(self, player):
         player.money += self.money_reward
-        player.exp += self.exp_reward
+        coefficient = 1
+        if player.level > self.level + 5:
+            coefficient = 0.15
+        player.exp += self.exp_reward * coefficient

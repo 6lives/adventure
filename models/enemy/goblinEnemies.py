@@ -23,4 +23,9 @@ class GoblinShaman(Enemy):
 
 class GoblinWarlord(Enemy):
     def __init__(self):
-        super().__init__('предводитель гоблинов (БОСС)', 100, 5, 5, 5, 5, 100500, 10000, 25)
+        super().__init__('предводитель гоблинов (БОСС)', 100, 5, 5, 5, 5, 111, 777, 25)
+
+
+class ExtraBoss(Enemy):
+    def __init__(self):
+        super().__init__('владыка гоблинов (экстра босс)', 300, 15, 15, 15, 16, 999, 900, 50)

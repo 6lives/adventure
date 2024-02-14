@@ -7,7 +7,7 @@ from models.enemy.goblinEnemies import *
 
 class GoblinCamp(Forest):
     title = 'Лагерь гоблинов'
-    levels = [10, 15]
+    levels = [10, 18]
 
     class GoblinCampEnemies(Enum):
         goblinTeen: GoblinTeen = 'goblinTeen'
@@ -15,6 +15,7 @@ class GoblinCamp(Forest):
         goblinShaman: GoblinShaman = 'goblinShaman'
         goblinWarrior: GoblinWarrior = 'goblinWarrior'
         goblinWarlord: GoblinWarlord = 'goblinWarlord'
+        goblinExtraBoss: ExtraBoss = 'goblinExtraBoss'
 
     @staticmethod
     def goblin_camp_factory(enemy: GoblinCampEnemies):
@@ -30,3 +31,5 @@ class GoblinCamp(Forest):
                 return GoblinShaman(level)
             case enemy.goblinWarlord:
                 return GoblinWarlord()
+            case enemy.goblinExtraBoss:
+                return ExtraBoss()

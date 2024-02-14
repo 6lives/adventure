@@ -43,14 +43,15 @@ class Game:
 
     @staticmethod
     async def heal(message, player):
-        await message.reply(f'Исцеление займет 10 секунд и вылечит {player.max_hp()/2} хп', reply_markup=player.current_location.keyboard)
+        wait = int(10 + player.level)
+        await message.reply(f'Исцеление займет {wait} секунд и вылечит {player.max_hp()/2} хп', reply_markup=player.current_location.keyboard)
         sleep_string = '🛏️'
         sleep_message = await message.bot.send_message(message.chat.id, sleep_string)
-        for i in range(10):
-            if len(sleep_string) >= 5:
+        for i in range(wait):
+            if len(sleep_string) >= 6:
                 sleep_string = '🛏️'
             sleep_string += 'z'
             await message.bot.edit_message_text(sleep_string, sleep_message.chat.id, sleep_message.message_id)
             await asyncio.sleep(1)
         player.heal(player.max_hp()/2)
-        await message.bot.send_message(message.chat.id, 'Игрок исцелен')
+        await message.bot.send_message(message.chat.id, f'Игрок исцелен. Здоровье {player.hp}/{player.max_hp()}')
